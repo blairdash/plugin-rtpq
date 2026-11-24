@@ -140,13 +140,50 @@ public final class RtpQueue extends JavaPlugin implements CommandExecutor, TabCo
     }
     // ---- teleporting -----------------------------------------------------------------------------
     private void match(Player a, Player b) {
+        tell(a, "searching"); tell(b, "searching");
+        if (getConfig().getBoolean("use-rtp-command", true) && !getConfig().getString("rtp-command", "rtp").isBlank()) rtpThenTp(a, b);
+        else randomSpot(a, b);
+    }
+
+    /**
+     * Runs the server's own /rtp as the first player, waits until they have actually moved, then teleports the
+     * second player next to them. Falls back to the built-in random spot if /rtp does nothing in time.
+     */
+    private void rtpThenTp(Player a, Player b) {
+        Location start = a.getLocation();
+        String command = getConfig().getString("rtp-command", "rtp").replaceFirst("^/", "");
+        long deadline = System.currentTimeMillis() + getConfig().getLong("rtp-timeout-seconds", 15) * 1000L;
+        a.getScheduler().run(this, t -> Bukkit.dispatchCommand(a, command), () -> fail(a, b));
+        AtomicInteger once = new AtomicInteger();
+        a.getScheduler().runAtFixedRate(this, task -> {
+            if (!a.isOnline()) { task.cancel(); if (once.getAndIncrement() == 0) fail(a, b); return; }
+            Location now = a.getLocation();
+            boolean moved = now.getWorld() != start.getWorld() || now.distanceSquared(start) > 50 * 50;
+            if (moved) {
+                task.cancel();
+                if (once.getAndIncrement() != 0) return;
+                Location spot = now.clone();
+                int sep = getConfig().getInt("separation", 4);
+                CompletableFuture<Location> second = sep <= 0 ? CompletableFuture.completedFuture(spot)
+                        : nearby(spot.clone().add(sep, 0, 0), spot);
+                second.thenAccept(l2 -> {
+                    a.getScheduler().run(this, x -> { a.sendActionBar(text("teleported-bar")); tell(a, "teleported"); }, null);
+                    send(b, l2);
+                });
+            } else if (System.currentTimeMillis() > deadline) {
+                task.cancel();
+                if (once.getAndIncrement() == 0) randomSpot(a, b);
+            }
+        }, () -> { if (once.getAndIncrement() == 0) fail(a, b); }, 10L, 10L);
+    }
+
+    private void randomSpot(Player a, Player b) {
         World world = pickWorld(a);
         if (world == null) { fail(a, b); return; }
         int min = getConfig().getInt("min-distance", 0), max = getConfig().getInt("max-distance", 1000);
         double half = world.getWorldBorder().getSize() / 2.0 - 16;
         max = (int) Math.max(1, Math.min(max, half));
         min = Math.min(min, max - 1);
-        tell(a, "searching"); tell(b, "searching");
         search(world, min, max, getConfig().getInt("max-attempts", 40)).thenAccept(loc -> {
             if (loc == null) { fail(a, b); return; }
             int sep = getConfig().getInt("separation", 4);

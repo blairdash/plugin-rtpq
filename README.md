@@ -1,6 +1,6 @@
 # RTPQueue
 
-A Paper / Folia plugin: type `/rtpqueue` to wait in a queue. As soon as a second player joins, both of you are teleported to the same random spot in the world, so you can fight without having to trust each other with coordinates.
+A Paper / Folia plugin: type `/rtpqueue` to wait in a queue. As soon as a second player joins, the plugin runs the server's own `/rtp` for the first player and then teleports the second player next to them (if `/rtp` isn't available it picks a random safe spot itself), so you can fight without having to trust each other with coordinates.
 
 This is a plugin rewrite of the original Skript. It adds a proper `leave` command, leaves the queue when you log out, times people out individually instead of wiping everyone every minute, and finds safe ground (no lava, water, cacti, and so on) before it teleports anyone.
 

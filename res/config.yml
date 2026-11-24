@@ -1,3 +1,10 @@
+# Use the server's own /rtp for the first player, then /tp the second player next to them.
+# If /rtp does nothing within the timeout, the built-in random spot below is used instead.
+use-rtp-command: true
+rtp-command: "rtp"
+rtp-timeout-seconds: 15
+
+# Built-in random spot (used when use-rtp-command is false, or as the fallback).
 # World to teleport into. Leave empty to use the first player's world (or the main overworld).
 world: ""
 
