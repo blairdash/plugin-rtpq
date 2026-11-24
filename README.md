@@ -30,3 +30,7 @@ Needs a JDK (21+) and the Paper API jar:
 ```
 
 The jar is written to `RTPQueue.jar`. Folia is supported (`folia-supported: true`); all world reads run on the owning region thread.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
