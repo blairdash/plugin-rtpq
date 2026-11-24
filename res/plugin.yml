@@ -1,0 +1,22 @@
+name: RTPQueue
+main: com.blairdash.rtpqueue.RtpQueue
+version: 1.0.0
+api-version: '1.21'
+author: blairdash
+folia-supported: true
+description: Queue up with /rtpqueue; two waiting players are teleported together to a random spot.
+commands:
+  rtpqueue:
+    description: Join the RTP queue (or "leave" it)
+    usage: /rtpqueue [leave]
+    aliases: [rtpq]
+  rtpqueue-clear:
+    description: Empty the RTP queue
+    usage: /rtpqueue-clear
+permissions:
+  rtpqueue.use:
+    description: Use /rtpqueue
+    default: true
+  rtpqueue.clear:
+    description: Use /rtpqueue-clear
+    default: op

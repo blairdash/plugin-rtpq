@@ -1,20 +1,32 @@
-# RTP Queue Skript
-RTPQueue allow players to wait in queue to be teleported
+# RTPQueue
 
-# Description
+A Paper / Folia plugin: type `/rtpqueue` to wait in a queue. As soon as a second player joins, both of you are teleported to the same random spot in the world, so you can fight without having to trust each other with coordinates.
 
-RTP Queue is a newly made Skript of mine which features a queue system when players type /rtpqueue. It puts the player into a queue (which is sent in chat), and when another player gets in the queue, or when the queue reaches 2, both players get teleported to a random location in the world. It's very useful so that players can fight each other without needing to trust one another because they both get teleported randomly.
+This is a plugin rewrite of the original Skript. It adds a proper `leave` command, leaves the queue when you log out, times people out individually instead of wiping everyone every minute, and finds safe ground (no lava, water, cacti, and so on) before it teleports anyone.
 
-I haven't seen much of this idea go around, and hope someone uses it as an inspiration to make this better.
+## Commands
 
-# Documentation 
+| Command | Who | What |
+|---|---|---|
+| `/rtpqueue` (alias `/rtpq`) | everyone | Join the queue |
+| `/rtpqueue leave` | everyone | Leave the queue |
+| `/rtpqueue-clear` | `rtpqueue.clear` (ops) | Empty the queue if it ever gets stuck |
 
-# HELP
+## Permissions
 
-It's pretty simple. Not much to config, unless you'd like. If you find any bugs, please join my discord: discord.gg/mcdevs and @ me to report them. I hope there aren't any, as I've tested this myself, but if you come across one, don't hesitate to report it.
+- `rtpqueue.use` (default: everyone)
+- `rtpqueue.clear` (default: op)
 
-# COMMANDS
+## Config
 
-Player: /rtpqueue
+`plugins/RTPQueue/config.yml`: world, distance from 0,0, how far apart the two players land, queue timeout, and every message (with `&` color codes).
 
-Admins: /rtpqueue-clear (clears the variables, and deletes all the queue data) - mainly used if it gets clogged up, and it ends up breaking. Shouldn't happen often though.
+## Building
+
+Needs a JDK (21+) and the Paper API jar:
+
+```powershell
+.\build.ps1 -Api path\to\paper-api.jar
+```
+
+The jar is written to `RTPQueue.jar`. Folia is supported (`folia-supported: true`); all world reads run on the owning region thread.

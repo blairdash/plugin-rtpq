@@ -1,0 +1,30 @@
+# World to teleport into. Leave empty to use the first player's world (or the main overworld).
+world: ""
+
+# Random spot distance from 0,0 in blocks (the world border is respected if it is smaller).
+min-distance: 0
+max-distance: 1000
+
+# How far apart the two players land (blocks). 0 = exactly the same spot.
+separation: 4
+
+# A player waiting longer than this is removed from the queue. 0 = never.
+queue-timeout-seconds: 60
+
+# How many random spots to try before giving up.
+max-attempts: 40
+
+messages:
+  prefix: ""
+  joined: "&aYou're now looking for an RTP fight. &7(/rtpqueue leave to cancel)"
+  queue-size: "&aThere is currently %count% player%s% in the queue."
+  already-in-queue: "&cYou're already in the queue. &7(/rtpqueue leave)"
+  not-in-queue: "&cYou're not in the queue."
+  left: "&7You left the RTP queue."
+  searching: "&7Match found, finding a spot..."
+  teleported: "&aYou've successfully RTP'd to another player."
+  teleported-bar: "&aYou've successfully RTP'd to another player"
+  failed: "&cCouldn't find a safe spot. Try /rtpqueue again."
+  timed-out: "&cYou were removed from the RTP queue (nobody joined in time)."
+  cleared: "&aCleared the RTP queue (%count% removed)."
+  no-permission: "&cYou don't have permission."
