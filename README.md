@@ -33,4 +33,4 @@ The jar is written to `RTPQueue.jar`. Folia is supported (`folia-supported: true
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+GPL-3.0, see [LICENSE](LICENSE). You can use, change and share it, but anything built from it has to stay open source under the same license.
