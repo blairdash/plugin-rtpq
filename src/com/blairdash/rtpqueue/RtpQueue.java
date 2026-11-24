@@ -1,3 +1,8 @@
+/*
+ * RTPQueue - queue up, then get teleported together.
+ * Copyright (C) 2026 blairdash
+ * Licensed under the GNU General Public License v3.0 (see LICENSE).
+ */
 package com.blairdash.rtpqueue;
 
 import net.kyori.adventure.text.Component;
